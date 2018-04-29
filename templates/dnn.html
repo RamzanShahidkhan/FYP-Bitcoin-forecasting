@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/png" href="../static/assets/img/bitcoin_icon.jpg">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+	<title>BITCOIN Forecasting</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    <link href="../static/assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="../static/assets/css/animate.min.css" rel="stylesheet"/>
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="../static/assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="../static/assets/css/demo.css" rel="stylesheet" />
+
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="../static/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="sidebar" data-color="#0B3232" >
+
+    <!--
+
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
+
+    -->
+
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="#" class="simple-text">
+                    BITCOIN Forecasting
+                </a>
+            </div>
+
+            <ul class="nav">
+                <li class="active">
+
+                        <i class="pe-7s-graph"></i>
+                        <p>ALGORITHM</p>
+
+                </li>
+                <li>
+
+                       <a href="ffnn">
+                        <i class="pe-7s-note2"></i>
+                        <p>FFNN</p>
+                    </a>
+
+
+                </li>
+                <li>
+
+                       <a href="dnn.html">
+                        <i class="pe-7s-note2"></i>
+                        <p>DNN</p>
+                    </a>
+
+                </li>
+                <li>
+
+                       <a href="rnn">
+                        <i class="pe-7s-note2"></i>
+                        <p>RNN</p>
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+    	</div>
+    </div>
+
+    <div class="main-panel" data-color="#b5b5b5">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid" style="background: #ececec;">
+     <p style="margin-top: 1em"> <font size="6" face="sans-serif"> <marquee  SCROLLAMOUNT=6; SCROLLDELAY=6> Bitcoin Forecasting using Artificial Neural Networks </marquee> </font> </p>
+
+							  <div class="navbar-header">
+
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="content">
+            <div class="container-fluid">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                 <center><h4 class="title">Deep Neural Network</h4>
+                                <p class="category">Graphical Representation</p>
+                            </center>
+	<center>					<br>										<form class="form-horizontal" action="/action_page.php">
+	<div class="form-group">
+		&nbsp&nbsp&nbsp <label for="rmse:   ">rmse:</label> &nbsp
+		 <label for="email" class="label-control " >{{ rmse |safe }}           </label> &nbsp &nbsp
+			 <label for="rmse:   ">mae :  </label> &nbsp
+		 <label for="email" class="label-control " >{{ mae|safe }}     </label> &nbsp &nbsp
+
+			 <label for="rmse:   ">mape :  </label> &nbsp
+		 <label for="email" class="label-control " >{{ mape |safe }}          </label>
+	 </div>
+
+ </form></center>
+                            </div>
+														<hr>
+                            <div class="content">
+															  <script>
+
+window.onload = function () {
+
+    <!--Graphing-->
+    {#var error_names = ["RMSE", "MAPE", "MAE"];#}
+    var error_names = {{ dates|safe }};
+    //{#var errors = {{errors|safe}};#}
+    var errors ={{ values|safe }};
+    var errors2 ={{ values1|safe }};
+    error = [];
+    error2 = [];
+
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        animationEnabled: true, // change to true
+        zoomEnabled: true,
+        exportEnabled: true,
+        zoomType: "xy",
+        title: {
+            text: "Bitcoin Forecasting"
+        },
+        axisX: {
+		title: "Time ",
+            crosshair: {
+			enabled: true,
+			snapToDataPoint: true
+		}
+	    },
+        axisY: {
+		title: "Bitcoin's Price (USD)",
+            crosshair: {
+			enabled: true
+		},
+		titleFontColor: "#4F81BC",
+		labelFontColor: "#4F81BC",
+            includeZero: false,
+            suffix: "USD",
+		scaleBreaks: {
+			autoCalculate: true
+		}
+	    },
+        toolTip: {
+		shared: true
+	    },
+        legend: {
+		cursor: "pointer",
+            verticalAlign: "top",
+		horizontalAlign: "left",
+		dockInsidePlotArea: true,
+		itemclick: toggleDataSeries
+	    },
+        data: [
+            {
+                // Change type to "bar", "area", "spline", "pie",etc.
+                name: "Predicted",
+		        showInLegend: true,
+                 color:"#0000ff",
+                type: "line",
+                axisYIndex: 1,
+                dataPoints: error
+            }
+            ,
+            {
+                name: "Actual",
+		        showInLegend: true,
+                  color:"#ff0000",
+                type: "line",
+                axisYIndex: 1,
+                dataPoints: error2
+            }
+        ]
+    });
+
+    parseDataPointsForErrors();
+    parseDataPointsForErrors2();
+    chart.render();
+
+    function toggleDataSeries(e) {
+	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	} else {
+		e.dataSeries.visible = true;
+	}
+	e.chart.render();
+}
+
+    function parseDataPointsForErrors() {
+        for (var ii = 0; ii < error_names.length; ii++) {
+            error.push({
+                label: error_names[ii],
+                y: errors[ii]
+            });
+
+        }
+    }
+            function parseDataPointsForErrors2() {
+                for (var ii = 0; ii < error_names.length; ii++) {
+                    error2.push({
+                        label: error_names[ii],
+                        y: errors2[ii]
+                    });
+
+                }
+            }
+
+}
+</script>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<br>
+<hr>
+<br>
+
+                                    <center>  <h3>Data In Table Form</h3></center>
+								    <div class="table-responsive " style="overflow-x:auto; max-height: 200px;"  >
+
+								              <table class="table table-light table-hover"   border="1" style="overflow-x:auto; overflow-y:auto; max-height: 200px; width:100%">
+								                    <thead class="thead-dark">
+								                        <tr>
+								                            <th> Date </th>
+								                            <th> Actual </th>
+								                            <th> Predicted </th>
+								                        </tr>
+								                    </thead>
+
+								                 {% for da,ac,pr in data_all %}
+								                 <tr>
+								                    <td class="text-right">{{  da}}</td>
+								                    <td class="text-right">{{ ac }}</td>
+								                    <td class="text-right">{{ pr }}</td>
+								                 </tr>
+								                 {% endfor %}
+								            </table>
+								        </div>
+
+															  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+
+                <p class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">FYP Project</a>, made by mrsk
+                </p>
+            </div>
+        </footer>
+
+    </div>
+</div>
+
+
+</body>
+
+    <!--   Core JS Files   -->
+    <script src="../static/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+	<script src="../static/assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+	<!--  Charts Plugin -->
+	<script src="../static/assets/js/chartist.min.js"></script>
+
+    <!--  Notifications Plugin    -->
+    <script src="../static/assets/js/bootstrap-notify.js"></script>
+
+    <!--  Google Maps Plugin    -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+    <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
+	<script src="../static/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+
+	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
+	<script src="../static/assets/js/demo.js"></script>
+
+
+
+</html>

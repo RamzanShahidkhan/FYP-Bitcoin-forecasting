@@ -1,0 +1,38 @@
+{% extends "home_page.html" %}
+
+{% block title %} graph data in content {% endblock %}
+
+{% block content %}
+
+    {#{% include 'ffnn_zingchart.html' %}#}
+    {% include 'ffnn_graph.html' %}
+<!---
+    <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+    --->
+
+
+    <div class="table-responsive " style="overflow-x:auto; max-height: 200px; max-width: 300px"  >
+             <table class="table table-light table-hover"   border="1" style="overflow-x:auto; overflow-y:auto; max-height: 200px;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> Date </th>
+                            <th> Actual </th>
+                            <th> Predicted </th>
+                        </tr>
+                    </thead>
+
+                 {% for da,ac,pr in data_all %}
+                 <tr>
+                    <td class="text-right">{{  da}}</td>
+                    <td class="text-right">{{ ac }}</td>
+                    <td class="text-right">{{ pr }}</td>
+                 </tr>
+                 {% endfor %}
+            </table>
+        </div>
+
+
+
+
+{% endblock %}
+

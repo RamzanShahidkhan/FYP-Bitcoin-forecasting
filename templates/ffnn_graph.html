@@ -1,0 +1,81 @@
+
+      <script type="text/javascript">
+        $(function() {
+            $('#container').highcharts({
+                chart:{
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Bitcoin Price Prediction',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'Kaggle data',
+                    x: -20
+                },
+                xAxis: {
+                    categories: {{ dates|safe }},
+                    crosshair: {
+			                enabled: true,
+			                snapToDataPoint: true
+		                        },
+                    title: {
+                    text: 'Time'
+                        }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Bitcoin Price (USD)',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        },
+                        crosshair: {
+		        	            enabled: true
+	                	        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#800e23'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ' USD',
+                    shared:true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    x: 10,
+                    verticalAlign: 'middle',
+                    y: 0,
+                    borderWidth: 0
+                },
+                series: [{
+                    name: 'actual',
+                    type: 'spline',
+                    color: "#F08080",
+                    data: {{ values|safe }}
+                }, {
+                    name: 'Predicted',
+                    type:'spline',
+                    color: "#122af0",
+                    data: {{ values1 |safe }}
+                },
+                ]
+            });
+        });
+    </script>
+      <!--
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js" type="text/javascript"></script>
+    --->
+
+
+
+          <div id="container" style="min-width: 400px; height: 400px; margin-top: 40px; margin: 0 auto ">
+</div>
+
+
+

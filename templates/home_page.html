@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+	<title>Bitcoin Prediction by ANNs</title>
+	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+	<link href="/static/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link rel="shortcut icon" href="/static/images/bitcoin_icon.jpg">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!---
+
+      <script type="text/javascript">
+        $(function() {
+            $('#container').highcharts({
+                chart:{
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Bitcoin Price Prediction',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'Kaggle data',
+                    x: -20
+                },
+                xAxis: {
+                    {#categories: {{ dates|safe }},#}
+                    crosshair: {
+			                enabled: true,
+			                snapToDataPoint: true
+		                        },
+                    title: {
+                    text: 'Time'
+                        }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Bitcoin Price (USD)',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        },
+                        crosshair: {
+		        	            enabled: true
+	                	        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#800e23'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: ' USD',
+                    shared:true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    x: 10,
+                    verticalAlign: 'middle',
+                    y: 0,
+                    borderWidth: 0
+                },
+                series: [{
+                    name: 'actual',
+                    type: 'spline',
+                    color: "#F08080",
+                  {#  data: {{ values|safe }}#}
+                }, {
+                    name: 'Predicted',
+                    type:'spline',
+                    color: "#122af0",
+                    {#data: {{ values1 |safe }}#}
+                },
+                ]
+            });
+        });
+
+    </script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js" type="text/javascript"></script>
+`   --->
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js" type="text/javascript"></script>
+
+
+    <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 50px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 770px) {
+      .sidenav {
+        height: auto;
+        padding: 4px;
+      }
+      .row {height:100%;}
+    }
+      div.ex1{
+
+          width: 100%;
+          background-color: #e7c3c3;
+        border: 3px solid rgba(26, 56, 82, 0.8);
+      }
+      div.ex2{
+          width: 100%;
+          background-color: #c0a16b;
+      }
+      div.ex3{
+          background-color: #985f0d;
+      }
+
+        .label {
+            color: white;
+            padding: 8px;
+        }
+
+                .success {background-color: #afaba2;} /* Green */
+            .info {background-color: #2196F3;} /* Blue */
+            .warning {background-color: #ff9800;} /* Orange */
+            .danger {background-color: #f44336;} /* Red */
+            .other {background-color: #e7e7e7; color: black;} /* Gray */
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+        th {
+                text-align: left;
+                 padding: 8px;
+        }
+        td {
+                text-align: left;
+                 padding: 8px;
+        }
+        .table-responsive {
+            width: 100%;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+            border: 1px solid #DDD;
+            }
+
+  </style>
+
+</head>
+
+<header>
+  <div class="navbar-header">
+    <a class="navbar-brand" rel="home" href="/" title="Bitcoin Prediction">
+        <img style="max-height:90px; max-width:100%; margin-top: -5px;" src="/static/images/bit_ccc.jpg" >
+
+
+    </a>
+  </div>
+
+
+  <div class="container">
+  <ul class="nav navbar-nav navbar-right">
+	<ul class="nav nav-pills">
+        <li>
+        <form action="/ffn" method="GET">
+		<a href="#ffnn">
+            <button  type="submit" class="btn btn-primary navbar-btn" style=" margin-top: 38px; margin-bottom: 5px; width: 100px; height:35px; margin-right: 5px; margin-left: 15px">
+			 FFNN
+		</button></a>
+            </form>
+            </li>
+        <li>
+        <form action="/dnn" method="GET">
+		<a href="/#dnn/"><button type="submit" class="btn btn-primary navbar-btn" aria-pressed="true" style=" margin-top: 38px; margin-bottom: 5px; width: 100px; height:35px;">
+			 DNN
+		</button></a>
+            </form>
+            </li>
+        <li>
+        <form action="/rnn" method="GET">
+
+		<a href="/#rnn"><button type="submit" class="btn btn-primary navbar-btn" style=" margin-top: 38px; margin-bottom: 5px;width: 100px; height:35px; margin-left: 5px; margin-right: 5px">
+            RNN
+		</button></a>
+        </form>
+        </li>
+
+
+      </ul>
+	</ul>
+  </div>
+  <br><br>
+</header>
+
+
+<body style="min-height:100%; background-color:#efeef1 ">
+
+	<!--<hr style="color:#77777" ></hr>-->
+	<!-- Flashed messages and actual body content -->
+
+
+  <div class="container">
+
+  <div class="row">
+	<div class="col-md-12">
+	<div class="btn-group btn-group-justified" style = "margin-left: 10px">
+		<div class="btn-toolbar" role="toolbar">
+
+
+		  <div class="btn-group"><a href="/financial-analysis/?i=BTCUSD&tf=7d"><button type="button" class="btn btn-default navbar-btn">7 Days</button></a></div>
+		  <div class="btn-group"><a href="/financial-analysis/?i=BTCUSD&tf=30d"><button type="button" class="btn btn-default navbar-btn">30 Days</button></a></div>
+
+		  <div class="btn-group"><a href="/financial-analysis/?i=BTCUSD&tf=6m"><button type="button" class="btn btn-default navbar-btn">6 months</button></a></div>
+		  <div class="btn-group"><a href="/financial-analysis/?i=BTCUSD&tf=1y"><button type="button" class="btn btn-default navbar-btn">1 Year</button></a></div>
+
+		</div>
+    </div>
+    </div>
+  </div>
+
+	<div >
+    <div class="text-justify col-md-offset-8">
+    <form class="form-horizontal" action="/action_page.php">
+    <div class="form-group">
+      <label for="rmse:   ">rmse:</label>
+      <label for="email" class="label-control " >{{ rmse |safe }}           </label>
+        <label for="rmse:   ">mae :  </label>
+      <label for="email" class="label-control " >{{ mae|safe }}     </label>
+
+        <label for="rmse:   ">mape :  </label>
+      <label for="email" class="label-control " >{{ mape |safe }}          </label>
+    </div>
+
+  </form>
+    </div>
+    </div>
+
+
+    {% block content %}
+
+    {% endblock %}
+
+  </div>
+
+
+{% include "footer.html" %}
+</body>
+
+</html>
